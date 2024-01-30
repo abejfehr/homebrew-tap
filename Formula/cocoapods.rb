@@ -1,23 +1,18 @@
-# This forces cocoapods installation to version 1.14.3 because we cannot explicitly specify which version we want to download through brew
-# you will need to update this Formula when FEMR switches to a new version of cocoapods
-# this file is a copy of the Formula from this PR: https://github.com/Homebrew/homebrew-core/commit/f10a193be56a3182531297ed64f1a4931627010c
-# to find the new formula, run `brew search --pull-request cocoapods@#.#.#` where #.#.# is the version you want to install
-# then copy the formula from the PR and paste it here
 class Cocoapods < Formula
   desc "Dependency manager for Cocoa projects"
   homepage "https://cocoapods.org/"
-  url "https://github.com/CocoaPods/CocoaPods/archive/refs/tags/1.14.3.tar.gz"
-  sha256 "de05766e5771e0cef7af89f73b0e42a1f1c52a76ce1288592cd9511bcd688a9e"
+  url "https://github.com/CocoaPods/CocoaPods/archive/refs/tags/1.15.0.tar.gz"
+  sha256 "5133da7952299ee3880dd8fc9a1f1af26998b4705dd41b34a7f8e849f2d7053e"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_sonoma:   "659ed73f0da29fb6bc21269a51d83d60ac069cc0ca42548776149a2a1f839928"
-    sha256 cellar: :any,                 arm64_ventura:  "b2b02391270c4397ed07fc3f547a0956562e9c916d6c901931e4b6d9b7f59416"
-    sha256 cellar: :any,                 arm64_monterey: "c4da45ab76b118bf8336704fd134209341efcbfbd0d6f9ebb439ded268802a35"
-    sha256 cellar: :any,                 sonoma:         "4bcebefe7753f3db1be8379844e0eb987c530ee5069027a574f096ee3a7ed1c9"
-    sha256 cellar: :any,                 ventura:        "139bf64804df7abcf4465e6e71e03bf8d5cc9d8b39306c0b001fe7de16f3f349"
-    sha256 cellar: :any,                 monterey:       "d27fccc4a9f4ecb8b8384ecd764878137c5ec0742eb4080bf87f409a3007e66b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "97254aa1331bd0dcf0e1d22d9166c56767a03418586bf213d5b19555c4a6cfd4"
+    sha256 cellar: :any,                 arm64_sonoma:   "21698eefc0c347e5da1a6de5421490897aaa77ec367e08584ae603b067b74b87"
+    sha256 cellar: :any,                 arm64_ventura:  "84877a2908d3665f4f2af32b29aa7d37b8ee5a6381214b0938410c60871da85f"
+    sha256 cellar: :any,                 arm64_monterey: "d123213d82066ca41bc5961ca6d26afc28c06a0aefd2b831c964175a5dee0da6"
+    sha256 cellar: :any,                 sonoma:         "7a32dacdde0bf7c4de271e9e56df05300e19ebfc13f402a770dd22bca6fa02fe"
+    sha256 cellar: :any,                 ventura:        "0155d3aa9242020a9794338e7bdcad5efa985a08af10bd8135b196bd7d40c207"
+    sha256 cellar: :any,                 monterey:       "657fdd3e107087dce22a5484c1adc86f5b06530b2428cad70c49a5a6de302183"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ffcd84b2d766cbc07f24cf8fb736bc82ca3b352d9bfce5f6217aaed8cebef258"
   end
 
   depends_on "pkg-config" => :build
@@ -25,10 +20,6 @@ class Cocoapods < Formula
   uses_from_macos "libffi", since: :catalina
 
   def install
-    if MacOS.version >= :mojave && MacOS::CLT.installed?
-      ENV["SDKROOT"] = ENV["HOMEBREW_SDKROOT"] = MacOS::CLT.sdk_path(MacOS.version)
-    end
-
     ENV["GEM_HOME"] = libexec
     system "gem", "build", "cocoapods.gemspec"
     system "gem", "install", "cocoapods-#{version}.gem"
@@ -41,4 +32,3 @@ class Cocoapods < Formula
     system "#{bin}/pod", "list"
   end
 end
-
